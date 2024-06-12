@@ -1,0 +1,64 @@
+// app global css in SCSS form 
+body {
+    font-family: 'Roboto';
+}
+
+.media-width {
+    width: 50%;
+}
+
+.small-width {
+    width: 30%;
+}
+
+
+
+
+.AppRoot-fullPage {
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    overflow-x: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+  
+.AppMain__layer__PageAndTopBar {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 0px !important;
+}
+
+.remove-min-height{
+    min-height: auto !important;
+}
+
+.contenedor-flexible{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+    .contenedor-flexible{
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 600px;
+    }
+  }
+
+
+
+.gray-background {
+    background-color: rgba(245, 243, 243, 0.795);
+}
+
+.border-radius-md {
+    border-radius: 15px;
+}
+
+.capitalize-first-letter {
+    text-transform: capitalize;
+  }

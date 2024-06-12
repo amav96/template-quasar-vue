@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  template-node:
+    build:
+      context: ../
+      dockerfile: ./environment/app/node/Dockerfile
+    container_name: template-node
+    volumes:
+      - ../application/:/var/www/html
+    ports:
+      - "3000:3000"
+    command: sh /var/www/html/node_start.sh
+    networks:
+      - db_center_net
+
+networks:
+  db_center_net:
+    external: true
+    name: db_center_net
