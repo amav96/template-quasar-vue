@@ -1,0 +1,33 @@
+export  const ITEMS_ESTADOS = {
+    TRANSITO : 1,
+    EN_CAMINO : 2,
+    ENTREGADO : 3,
+    RETIRADO  : 4,
+    CANCELADO : 5,
+    NO_RESPONDE: 6,
+    DIRECCION_INCORRECTA: 7,
+    FALTAN_DATOS: 8,
+    RECHAZADO: 9,
+    EN_PREPARACION : 10,
+    DEPOSITO: 11,
+    ASIGNADO : 12,
+    COLECTA: 13,
+    RECOLECTADO: 14,
+}
+
+export const PARADA_ESTADOS = {
+    PREPARADO:  1,
+    EN_CAMINO:  2,
+    VISITADO :  3,
+    CANCELADO:  4,
+}
+
+export const RECORRIDO_ESTADOS = {
+    PREPARADO: 1,
+    INICIADO: 2,
+    FINALIZADO: 3,
+    CANCELADO: 4
+}
+
+
+export const EMPRESA_INDEPENDIENTE = 1;

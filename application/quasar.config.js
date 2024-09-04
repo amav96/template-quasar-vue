@@ -9,17 +9,22 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 
-const { configure } = require('quasar/wrappers');
-const path = require('path');
-require('dotenv').config()
+// const { configure } = require('quasar/wrappers');
+import { configure } from 'quasar/wrappers'
+// const path = require('path');
+// const dotenv = require('dotenv');
+import path from 'path'
+import dotenv from 'dotenv'
 
-module.exports = configure(function (/* ctx */) {
+const envPath = process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
+const envConfig = dotenv.config({ path: envPath }).parsed;
+
+export default configure((/* ctx */) => {
   return {
-
     bin: {
-      
-     
-     
+      // linuxAndroidStudio: '/home/usuario/Android/Sdk',
+      linuxAndroidStudio: '/home/usuario/android-studio/bin/studio.sh',
+      // ...
     },
     
 
@@ -32,14 +37,14 @@ module.exports = configure(function (/* ctx */) {
     boot: [
       'main',
       'i18n',
-      // 'axios',
+      'axios',
      
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: [
       'app.scss',
-      , 'tailwind.css'
+      'tailwind.css',
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -58,14 +63,19 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
-
+      viteVuePluginOptions: {
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => tag === 'capacitor-google-map'
+          }
+        }
+      },
       target: {
         browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
         node: 'node16'
       },
-      env: require('dotenv').config().parsed,
+      env: envConfig,
       vueRouterMode: process.env.VUE_ROUTER_MODE,
-      S3BUCKETLAGUAGUA: process.env.S3BUCKETLAGUAGUA,
      
       // vueRouterBase,
       // vueDevtools,
@@ -96,17 +106,34 @@ module.exports = configure(function (/* ctx */) {
 
           // you need to set i18n resource including paths !
           include: path.resolve(__dirname, './src/i18n/**')
-        }]
+        }],
+        ['vite-plugin-checker', {
+          vueTsc: {
+            tsconfigPath: 'tsconfig.vue-tsc.json'
+          },
+        }, { server: false }]
+        
       ]
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
       // https: true
-      open: true, // opens browser window automatically
-      port: 3000,
-      disableHostCheck: true
-    
+      // open: true, // opens browser window automatically
+      historyApiFallback: true,
+      port: 8093,
+      host: '0.0.0.0',
+      https: false,
+      
+      hot: true,
+      watch: {
+        usePolling: true,
+      },
+      // watchOptions: {
+      //   poll: 1000 // Check for changes every second
+      // },
+      // host: '0.0.0.0', // Permite conexiones desde cualquier dirección IP
+   
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#framework

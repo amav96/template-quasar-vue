@@ -1,57 +1,48 @@
 <template>
     <q-header style="position: relative !important;" >
-      <q-toolbar class="tw-shadow-sm bg-white flex row justify-between no-border ">
-        <q-btn
+      <q-toolbar class="tw-shadow-sm bg-white flex row justify-between no-border">
+        <div class="tw-flex tw-flex-row">
+          <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
-          color="blue-12"
+          color="deep-purple-13"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
-        <div v-if="logo1 || logo2" class="flex row items-center justify-center tw-gap-2" >
-          <img
-          v-if="logo1"
-          :src="logo1"
-          
-          :style="`max-width: ${breakpoint.xs ? '110px' : '130px'}`"
-          />
-          <img
-          v-if="logo2"
-            :src="logo2"
-            
-            :style="`max-width: ${breakpoint.xs ? '110px' : '130px'};margin-bottom:6px;`"
-          />
         </div>
-    
+        
+        <q-img
+          :src="logo"
+          style="max-width: 160px"
+        />
+        
+        <q-btn
+        v-if="breakpoint.xs"
+        flat
+        dense
+        round
+        color="deep-purple-13"
+        />
+        
+       
       </q-toolbar>
     </q-header>
+
 </template>
 
 <script setup lang="ts">
-
-import { ref, toRefs, computed } from 'vue';
+const logo = 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Sistema_plastics_logo.png?20210418135040'
+import {  computed } from 'vue';
 import { useQuasar } from 'quasar';
-import { useUsuarioStore } from 'src/stores/Usuario.store';
+import { useUsuarioStore } from 'src/modules/Usuario/store/Usuario.store';
 import { storeToRefs } from 'pinia';
-
-const props = defineProps<{
-  logo1?: string,
-  logo2?: string
-}>()
-
-const { logo1, logo2 } = toRefs(props)
 
 const $q = useQuasar()
 const breakpoint = computed(() => $q.screen)
-
 const usuarioStore = useUsuarioStore()
-const {  leftDrawerOpen } = storeToRefs(usuarioStore);
+
+const {leftDrawerOpen, } = storeToRefs(usuarioStore);
 
 </script>
-
-<style scoped>
-
-</style>

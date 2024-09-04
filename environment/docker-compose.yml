@@ -9,7 +9,7 @@ services:
     volumes:
       - ../application/:/var/www/html
     ports:
-      - "3000:3000"
+      - "8093:8093"
     command: sh /var/www/html/node_start.sh
     networks:
       - db_center_net

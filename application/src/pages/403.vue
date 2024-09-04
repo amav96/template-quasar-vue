@@ -4,12 +4,12 @@
         <div class="error-message">
           <h1>Oops!</h1>
           <p>Parece que no tienes permisos para acceder a esta página.</p>
-          <div @click="router.push({name: 'elegir-cliente'})" class="flex justify-center q-ma-lg ">
+          <div @click="router.push({name: nombreRutaBack})" class="flex justify-center q-ma-lg ">
                 <q-btn
                 :class="[breakpoint.xs ? 'full-width' : '']"
                 unelevated 
                 rounded 
-                color="blue-12"
+                color="deep-purple-6"
                 label="Volver atras" 
                 type="button"
                 />
@@ -24,6 +24,9 @@
 import { useQuasar } from 'quasar'
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+const nombreRutaBack = computed(() => {
+  return 'pedidos-list'
+})
 
 const $q = useQuasar()
 const breakpoint = computed(() => $q.screen)

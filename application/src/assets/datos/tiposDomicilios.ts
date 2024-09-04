@@ -1,0 +1,6 @@
+export const TIPOS_DOMICILIOS = {
+    RESIDENCIAL : 'RESIDENCIAL',
+    COMERCIAL : 'COMERCIAL',
+}
+
+export const TIPOS_DOMICILIOS_OPCIONES = Object.values(TIPOS_DOMICILIOS) as string[]

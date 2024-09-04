@@ -1,7 +1,4 @@
-// app global css in SCSS form 
-body {
-    font-family: 'Roboto';
-}
+// app global css in SCSS form
 
 .media-width {
     width: 50%;
@@ -11,7 +8,9 @@ body {
     width: 30%;
 }
 
-
+pwa-camera-modal-instance, pwa-action-sheet{
+    z-index: 99999;
+}
 
 
 .AppRoot-fullPage {
@@ -29,36 +28,28 @@ body {
     flex: 1;
     overflow-y: auto;
     padding-top: 0px !important;
+
 }
 
 .remove-min-height{
     min-height: auto !important;
 }
 
-.contenedor-flexible{
+.contenedor-section{
     margin-right: auto;
     margin-left: auto;
-    max-width: 100%;
+    max-width: 600px;
 }
 
-@media only screen and (min-width: 600px) {
-    .contenedor-flexible{
-        margin-right: auto;
-        margin-left: auto;
-        max-width: 600px;
-    }
-  }
-
-
-
-.gray-background {
-    background-color: rgba(245, 243, 243, 0.795);
+.table-container {
+    flex: 1;
+    overflow: auto;
 }
 
-.border-radius-md {
-    border-radius: 15px;
+.content-table-page {
+    display: flex;
+    flex-direction: column;
+    max-height: 65vh;
+    overflow-y: auto;
 }
 
-.capitalize-first-letter {
-    text-transform: capitalize;
-  }

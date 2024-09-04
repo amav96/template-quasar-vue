@@ -1,116 +1,79 @@
-import { PaisModel, ProvinciaModel } from "./DataProvider.model";
-import { SucursalEmpresaUsuarioModel } from "./Empresa.model";
-import { Enterprise } from "./Equipo.model";
+import { EmpresaModel } from "./Empresa.model";
+import { PaisModel } from "./Pais.model";
+import { RolModel } from "./Rol.model";
+import { UsuarioEmpresaModel } from "./UsuarioEmpresa.model";
+
+
+export interface UsuarioConsumoModel {
+    id: number;
+    cantidad_optimizar: number;
+    consumo_optimizar: number;
+    cantidad_detectar: number;
+    consumo_detectar: number;
+    cantidad_polyline: number;
+    consumo_polyline: number;
+    paradas_hoy: number;
+    paradas_total: number;
+    usuario_id: string;
+    created_at: string;
+    updated_at: string
+}
 
 export interface UsuarioModel {
-    id: number;
-    firstName: string;
-    lastName: string;
-    fantasyName: string | null;
-    email: string;
-    email_verified_at: string;
-    documentType: string;
-    documentNumber: string;
-    taxPayerIdentificationNumber: string;
-    street: string;
-    streetHeight: string;
-    lat: number | null;
-    lng: number | null;
-    locality_id: number;
-    province_id: number;
-    country_id: number;
-    postalCode: number;
-    user_state_id: number;
-    role_id: number;
-    prefix: string;
-    phoneNumber: string;
-    tool_id: number;
-    brand: string | null;
-    patent: string | null;
-    down_at: string | null;
-    operator_id: number;
-    recommended_id: number;
-    unsubscribed_motives_id: number | null;
-    avatar: string;
-    frontDocument: string;
-    backDocument: string;
-    taxPayer: string;
-    proofOfAddress: string;
-    local: string | null;
-    signature: string;
-    enterprise_id: number | null;
-    enterprise: Enterprise
-    completed_at: string;
-    up_at: string;
+    id: string;
+    nombre: string;
+    email :string;
     created_at: string;
     updated_at: string;
-    sucursales_empresas_usuarios: SucursalEmpresaUsuarioModel[],
-    country: PaisModel;
-    province: ProvinciaModel;
-    user_state: {
-        color: string;
-        id: number;
-        name: string
-    }
-    
-}
-
-export interface UsuarioEmpresaForm {
-    nombre: string
-    apellido: string
-    email: string
-    paisId: number | null
-    empresaId: number | null
-    sucursalId: number | null
-    rolId: number | null
-    password: string | null
+    empresas: UsuarioEmpresaModel[];
+    pais_id: number;
+    rol_id: number;
+    rol?: RolModel;
+    pais: PaisModel,
+    usuarioConsumo : UsuarioConsumoModel,
+    actualizacion: string,
+    version: string,
+    permisos: string[],
+    configuraciones : UsuarioConfiguracionModel
 }
 
 
-export interface BranchModel {
+export interface UsuarioResponseWithPagination {
+    data: UsuarioModel[],
+    has_more: boolean;
+    last_page: number;
+    page: number;
+    total_pages: number;
+    total_results: number;
+}
+
+export interface UsuarioRequest {
+    empresaId?: number;
+}
+
+export interface UpdateUsuarioRequest {
+    nombre: string;
+    pais_id: number
+}
+export interface UpdateUsuarioResponse extends UpdateUsuarioRequest {
+    pais: PaisModel
+}
+
+export interface UsuarioConfiguracionModel {
     id: number;
-    user_id: number;
-    operator_id: number | null;
-    country_id: number;
-    province_id: number;
-    locality_id: number;
-    coverage_type_id: number;
-    address: string;
-    postalCode: string;
-    lat: number;
-    lng: number;
-    created_at: string | null;
-    updated_at: string;
-    deleted_at: string | null;
+    precio_item: number;
+    total_valor_items_acumulado: number;
+    empresa_operativa_id: number;
+    empresa_operativa: EmpresaModel;
+   
+}
+export interface UsuarioConfiguracionForm {
+    precio_item: boolean | number;
+    total_valor_items_acumulado: boolean | number; 
 }
 
-export interface ScheduleModel {
-    id: number;
-    name: string;
-    from: string;
-    until: string;
-}
-
-export interface WorkScheduleModel {
-    id: number;
-    user_id: number;
-    day_id: number;
-    schedule_id: number;
-    created_at: string;
-    updated_at: string;
-    day: {
-        id: number;
-        name: string;
-    };
-    schedule: ScheduleModel;
-}
-
-export interface WorkScheduleResponse {
-  work_schedules: WorkScheduleModel[];
-}
-
-export interface RolModel {
-    id: number;
-    name: string;
-    code: string
+export interface UsuarioConfiguracionRequest {
+    precio_item: boolean | number;
+    total_valor_items_acumulado: boolean | number; 
+    usuario_id: number
 }

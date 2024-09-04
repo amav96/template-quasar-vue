@@ -1,11 +1,20 @@
-import { RouteRecordRaw } from 'vue-router';
-
-const AutenticacionRoute : RouteRecordRaw[] = [
+export default [
     {
-        path: '/autenticacion/login',
-        name: 'login',
-        component: () => import('src/modules/Autenticacion/pages/LoginPage.vue'),
-      },
+        path: '/autenticacion',
+        redirect: '/autenticacion/login',
+        component:  () => import('src/modules/Autenticacion/layouts/AutenticarLayout.vue'), 
+        children:[ 
+          {
+            path: 'login',
+            name: 'login',
+            component: () => import('src/modules/Autenticacion/pages/Login.vue'), 
+            
+          },
+          {
+            path: 'registrar',
+            name: 'registrar',
+            component: () => import('src/modules/Autenticacion/pages/Registrar.vue'), 
+          }
+        ]
+      }
 ]
-
-export default AutenticacionRoute;

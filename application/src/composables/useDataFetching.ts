@@ -1,12 +1,12 @@
 import { getFiltros } from 'src/utils/Util';
-import { ref, Ref } from 'vue'
+import { ref } from 'vue'
 
 interface Pagination {
     page: number;
-    total: number;
+    total_results: number;
+    total_pages: number;
     last_page: number;
-    next_page_url: string | null;
-    prev_page_url: string | null;
+    has_more: boolean;
 }
 
 interface Filters {
@@ -18,53 +18,48 @@ interface Order {
     order: string;
 }
 
-interface Repository {
-    (params: Filters ): Promise<any>;
+interface Repository<T> {
+    (params: Filters ): Promise<T>;
 }
 
-interface Options {
+export interface Options {
     incluir?: string[];
     order?: Order[];
 }
 
-export default function useDataFetching(
-    repository: Repository, 
+export default function useDataFetching<T>(
+    repository: Repository<T>, 
     options : Options = {}
 ) {
-    const items = ref<any>(null)
     const initialPagination: Pagination = {
         page: 1,
-        total: 0,
+        total_results: 0,
+        total_pages: 0,
         last_page: 0,
-        next_page_url: null,
-        prev_page_url: null
+        has_more: false,
+        
     }
     const pagination= ref<Pagination>(initialPagination)
     const loading = ref(false)
 
-    const fetchData = async (filters: Filters = {}) => {
+    const fetchData = async (filters: Filters = {}) : Promise<T> => {
         const { incluir, order } = options
         try {
             loading.value = true
-
             const response = await repository({
                 ...getFiltros(filters),
                 page: pagination.value.page,
                 ...(incluir && incluir.length > 0 ? { incluir} : {}),
                 order: order || [] // Provide a default value for the 'order' parameter
             })
-            if('data' in response){
-                const { data, current_page, total, last_page, next_page_url, prev_page_url } = response 
-                items.value = data
-                pagination.value = { ...pagination.value, page: current_page, total, last_page, next_page_url, prev_page_url }
-            }
+            return response
         } catch (error) {
-            console.error(error)
+            throw error
         } finally {
             loading.value = false
         }
     }
 
 
-    return { items, pagination, loading, fetchData }
+    return { pagination, loading, fetchData }
 }

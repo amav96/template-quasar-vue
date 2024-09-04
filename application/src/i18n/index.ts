@@ -1,7 +1,6 @@
 
-import esArg from './es-ARG';
+import arg from './arg';
 
 export default {
-
-  'arg' : esArg
+  'arg' : arg,
 };

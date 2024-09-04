@@ -7,7 +7,6 @@ import axios, {
 } from 'axios';
 import { Preferences } from '@capacitor/preferences';
 import { API_BASE_URL } from './BaseUrl';
-import { _KEY_TOKEN } from './Keys';
 
 export interface ApiRequest<T = any> {
     url: string;
@@ -60,14 +59,14 @@ const request = (call: ApiRequest): Promise<ApiResponse> => {
                 ...call.extraHeaders
             }
         };
-
+      
         if(call.auth){
-            let tokenAutenticado = await Preferences.get({ key: _KEY_TOKEN });
+            let tokenAutenticado = await Preferences.get({ key: "_token" });
+
             if (tokenAutenticado.value && axiosCall.headers) {
                 axiosCall.headers['Authorization'] = `Bearer ${tokenAutenticado.value}`;
             }
         }
-
 
         instance(axiosCall).then(onSuccess).catch(onError);
     });

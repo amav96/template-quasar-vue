@@ -1,10 +1,10 @@
 import { get } from 'http';
 import request from './ApiResponse.helper'
-import { FormateadorGoogleAddressModel } from 'src/models/Google.model';
+import { AddressComponentModel, FormateadorGoogleAddressModel, GeolocationPosition } from 'src/models/Google.model';
 
-export const formatearGoogleAddress = (addressComponents: any[]) :FormateadorGoogleAddressModel => {
-
-    const ShouldBeComponent : any = {
+export const formatearGoogleAddress = (addressComponents: AddressComponentModel[]): Promise<FormateadorGoogleAddressModel> => {
+  return new Promise((resolve) => {
+    const ShouldBeComponent: any = {
       street_number: ['street_number'],
       postal_code: ['postal_code'],
       street: ['street_address', 'route'],
@@ -27,8 +27,8 @@ export const formatearGoogleAddress = (addressComponents: any[]) :FormateadorGoo
       ],
       country: ['country']
     };
-  
-    const formattedAddress : any = {
+
+    const formattedAddress: any = {
       street_number: '',
       postal_code: '',
       street: '',
@@ -36,33 +36,34 @@ export const formatearGoogleAddress = (addressComponents: any[]) :FormateadorGoo
       city: '',
       country: ''
     };
-  
+
     for (const shouldBe in ShouldBeComponent) {
       let consiguioValor = false;
-      for(const option of ShouldBeComponent[shouldBe]){
-        if(consiguioValor) break
-        for(const component of addressComponents){
-            if(consiguioValor) break
-            if(option.indexOf(component.types[0]) !== -1){
-              formattedAddress[shouldBe] = component.short_name && shouldBe !== 'country' ? component.short_name : component.long_name
-              consiguioValor = true;
-              break;
-            }
+      for (const option of ShouldBeComponent[shouldBe]) {
+        if (consiguioValor) break;
+        for (const component of addressComponents) {
+          if (consiguioValor) break;
+          if (option.indexOf(component.types[0]) !== -1) {
+            formattedAddress[shouldBe] = component.short_name && shouldBe !== 'country' ? component.short_name : component.long_name;
+            consiguioValor = true;
+            break;
+          }
         }
       }
     }
- 
-    return {
+
+    resolve({
       formatted_address: `${formattedAddress.street} ${formattedAddress.street_number}, ${formattedAddress.postal_code ?? ''} ${formattedAddress.city ?? formattedAddress.region}`,
-      localidad : formattedAddress.city as string,
-      provincia : formattedAddress.region as string,
+      localidad: formattedAddress.city as string,
+      provincia: formattedAddress.region as string,
       codigo_postal: formattedAddress.postal_code as string,
       numero: formattedAddress.street_number as string,
       calle: formattedAddress.street as string,
-    }
+    });
+  });
 };
 
-export const GPS = () => {
+export const GPS = () : Promise<GeolocationPosition> => {
   const options = {
     enableHighAccuracy: true,
     timeout: 10000,

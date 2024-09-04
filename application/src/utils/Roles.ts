@@ -1,10 +1,6 @@
 export const ROLES = {
-    ADMINISTRADOR: 1,
-    OPERADOR_ZONA: 2,
-    OPERADOR: 3,
-    RECOLECTOR: 4,
-    COMERCIO: 5,
-    ADMINISTRADOR_EMPRESA: 6,
-    TECNICO: 7,
-    CAC_EMPRESA: 8
+    ADMINISTRADOR_SISTEMA : 1,
+    OPERADOR: 2,
+    RIDER: 3,
+    
 }
